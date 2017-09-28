@@ -1,29 +1,3 @@
-<<<<<<< HEAD
-#include <stdio.h>
-#include <stdlib.h>
-
-/**
- * Functions to read and write files
- *
- * */
-int read_file( char* filename, char **buffer ){
-
-    //This is a file stream and opens it.  "r" = open existing file for reading
-    FILE* ogFile = fopen(filename, "r");
-    
-    
-
-    /*
-    for(int i = 0; i < size; i++){
-        buffer[i] = ogFile
-    }
-    */
-    return 0;
-}
-
-int write_file( char* filename, char *buffer, int size){
-    return 0;
-=======
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
@@ -37,16 +11,33 @@ int read_file( char* filename, char **buffer ){
     //This is a file stream and opens it.  "r" = open existing file for reading
     FILE* ogFile = fopen(filename, "r");
 
-    /**
-    for(int i = 0; i < size; i++){
-        buffer[i] = ogFile
-    }
-    */ 
+    //Get size of string
+    struct stat st;
+    int fileExists = stat(filename, &st);
+    //size will be zero if file doesn't exist
+    int size = st.st_size;
 
-    return 0;
+    //fseek(ogFile,0,SEEK_END);
+    //int numChars = ftell(ogFile);
+    //fseek(ogFile,0,0);
+    *buffer = malloc(size * sizeof(char));
+    fread(*buffer,sizeof(char),size,ogFile);
+    fclose(ogFile);
+    //for(int i = 0; i < numChars-1; i++){
+    //    fseek(ogFile, i, SEEK_CUR);
+    //    *buffer[i] = fgetc(ogFile);
+   // }
+    return size;
 }
 
 int write_file( char* filename, char *buffer, int size){
+    FILE* newFile = fopen(filename, "w");
+
+    int i = size-1;
+    while(i >= 0){
+        fputc(buffer[i], newFile);
+        i--;
+    }
+    fclose(newFile);
     return 0;
->>>>>>> 32f4fb23c5eaa9fc2f7b725558e35c7c948f4aaa
 }
