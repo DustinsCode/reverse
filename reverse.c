@@ -39,4 +39,5 @@ int main(int argc, char** argv){
 
         printf("File reversed successfully\n");
         free(buffer);
+        return 0;
 }
